@@ -14,18 +14,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Cargar modelo
 model = YOLO("best.pt")
 
-# Nombres de clases en español para mostrar en la app
 CLASES_ES = {
-    "Amarillamiento":    "Amarillamiento",
-    "CogolleroAvanzado": "Gusano Cogollero Avanzado",
-    "CogolleroInicial":  "Gusano Cogollero Inicial",
-    "Mosaico":           "Mosaico",
-    "PobredumbreRoja":   "Podredumbre Roja",
-    "Roya":              "Roya",
-    "Saludable":         "Saludable",
+    "Amarillamiento":  "Amarillamiento",
+    "Mosaico":         "Mosaico",
+    "PobredumbreRoja": "Podredumbre Roja",
+    "Roya":            "Roya",
+    "Saludable":       "Saludable",
 }
 
 @app.get("/")
@@ -39,23 +35,20 @@ async def predict(file: UploadFile = File(...)):
     image = Image.open(io.BytesIO(contents)).convert("RGB")
     img_array = np.array(image)
 
-    # Inferencia
-    results = model.predict(img_array, imgsz=416, conf=0.25, verbose=False)
+    results = model.predict(img_array, imgsz=224, conf=0.25, verbose=False)
     result = results[0]
 
-    # Procesar detecciones
     detecciones = []
     for box in result.boxes:
         clase_en = model.names[int(box.cls)]
         clase_es = CLASES_ES.get(clase_en, clase_en)
         x1, y1, x2, y2 = box.xyxy[0].tolist()
         detecciones.append({
-            "clase":      clase_es,
-            "confianza":  round(float(box.conf), 4),
-            "bbox":       [x1, y1, x2, y2],
+            "clase":     clase_es,
+            "confianza": round(float(box.conf), 4),
+            "bbox":      [x1, y1, x2, y2],
         })
 
-    # Dimensiones originales para que Flutter escale los boxes
     ancho, alto = image.size
 
     return {
