@@ -14,8 +14,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Cargar modelo
 model = YOLO("best.pt")
 
+# Nombres de clases
 CLASES_ES = {
     "Amarillamiento":  "Amarillamiento",
     "Mosaico":         "Mosaico",
@@ -30,12 +32,11 @@ def root():
 
 @app.post("/predict")
 async def predict(file: UploadFile = File(...)):
-    # Leer imagen
     contents = await file.read()
     image = Image.open(io.BytesIO(contents)).convert("RGB")
-    img_array = np.array(image)
 
-    results = model.predict(img_array, imgsz=224, conf=0.25, verbose=False)
+    # Inferencia directa con imagen PIL
+    results = model(image, conf=0.25)
     result = results[0]
 
     detecciones = []
