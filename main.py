@@ -36,7 +36,7 @@ async def predict(file: UploadFile = File(...)):
     image = Image.open(io.BytesIO(contents)).convert("RGB")
 
     # Inferencia directa con imagen PIL
-    results = model(image, conf=0.25)
+    results = model(image, conf=0.15)
     result = results[0]
 
     detecciones = []
