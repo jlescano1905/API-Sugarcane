@@ -21,7 +21,7 @@ model = YOLO("best.pt")
 CLASES_ES = {
     "Amarillamiento":  "Amarillamiento",
     "Mosaico":         "Mosaico",
-    "PobredumbreRoja": "Podredumbre Roja",
+    "Podredumbre roja": "Podredumbre Roja",
     "Roya":            "Roya",
     "Saludable":       "Saludable",
 }
