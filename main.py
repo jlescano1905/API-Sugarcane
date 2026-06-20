@@ -41,7 +41,7 @@ async def predict(file: UploadFile = File(...)):
     contents = await file.read()
     image = Image.open(io.BytesIO(contents)).convert("RGB")
 
-    results = model(image, imgsz=640, conf=0.2)
+    results = model(image, imgsz=640, conf=0.55)
     result = results[0]
 
     detecciones = []
