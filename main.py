@@ -17,26 +17,31 @@ app.add_middleware(
 # Cargar modelo
 model = YOLO("best.pt")
 
-# Nombres de clases
+# Nombres de clases — 7 clases (ModeloDemo_v5)
 CLASES_ES = {
-    "Amarillamiento":  "Amarillamiento",
-    "Mosaico":         "Mosaico",
-    "Podredumbre roja": "Podredumbre Roja",
-    "Roya":            "Roya",
-    "Saludable":       "Saludable",
+    "Amarillamiento":    "Amarillamiento",
+    "CogolleroAvanzado": "Gusano Cogollero Avanzado",
+    "CogolleroInicial":  "Gusano Cogollero Inicial",
+    "Mosaico":           "Mosaico",
+    "PobredumbreRoja":   "Podredumbre Roja",
+    "Roya":              "Roya",
+    "Saludable":         "Saludable",
 }
 
 @app.get("/")
 def root():
     return {"status": "CañaScan API activa"}
 
+@app.get("/clases")
+def clases():
+    return {"clases": model.names}
+
 @app.post("/predict")
 async def predict(file: UploadFile = File(...)):
     contents = await file.read()
     image = Image.open(io.BytesIO(contents)).convert("RGB")
 
-    # Inferencia directa con imagen PIL
-    results = model(image, conf=0.15)
+    results = model(image, imgsz=640, conf=0.25)
     result = results[0]
 
     detecciones = []
