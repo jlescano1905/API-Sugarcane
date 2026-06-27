@@ -73,3 +73,17 @@ async def predict(file: UploadFile = File(...)):
         "total":        len(detecciones),
         "mensaje":      "Hoja de caña detectada"
     }
+
+@app.post("/debug")
+async def debug(file: UploadFile = File(...)):
+    contents = await file.read()
+    image = Image.open(io.BytesIO(contents)).convert("RGB")
+    img_np = np.array(image)
+    resultado_hoja = model_hoja(img_np, conf=0.01, verbose=False)
+    boxes = []
+    for box in resultado_hoja[0].boxes:
+        boxes.append({
+            "conf": round(float(box.conf), 4),
+            "cls": int(box.cls)
+        })
+    return {"boxes": boxes, "total": len(boxes)}
