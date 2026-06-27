@@ -43,7 +43,7 @@ async def predict(file: UploadFile = File(...)):
     img_np = np.array(image)
     img_np = img_np[:, :, ::-1]  # RGB a BGR
 
-    resultado_hoja = model_hoja(img_np, conf=0.20, verbose=False)
+    resultado_hoja = model_hoja(img_np, conf=0.45, verbose=False)
 
     if len(resultado_hoja[0].boxes) == 0:
         return {
