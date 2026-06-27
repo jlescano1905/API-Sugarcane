@@ -42,7 +42,7 @@ async def predict(file: UploadFile = File(...)):
     image = Image.open(io.BytesIO(contents)).convert("RGB")
     img_np = np.array(image)
 
-    resultado_hoja = model_hoja(img_np, imgsz=416, conf=0.45, verbose=False)
+    resultado_hoja = model_hoja(img_np, imgsz=640, conf=0.20, verbose=False)
 
     if len(resultado_hoja[0].boxes) == 0:
         return {
