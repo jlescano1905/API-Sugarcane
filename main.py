@@ -79,6 +79,7 @@ async def debug(file: UploadFile = File(...)):
     contents = await file.read()
     image = Image.open(io.BytesIO(contents)).convert("RGB")
     img_np = np.array(image)
+    img_np = img_np[:, :, ::-1]  # RGB a BGR
     resultado_hoja = model_hoja(img_np, conf=0.01, verbose=False)
     boxes = []
     for box in resultado_hoja[0].boxes:
