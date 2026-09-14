@@ -15,17 +15,19 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-model_hoja = YOLO("hoja.pt")
-model_enfermedades = YOLO("best.pt")
+model_hoja = YOLO("MODELO_HOJA.pt")
+model_enfermedades = YOLO("MODELO_AFECCION.pt")
 
 CLASES_ES = {
-    "Amarillamiento":    "Amarillamiento",
-    "CogolleroAvanzado": "Gusano Cogollero Avanzado",
-    "CogolleroInicial":  "Gusano Cogollero Inicial",
-    "Mosaico":           "Mosaico",
-    "PobredumbreRoja":   "Podredumbre Roja",
-    "Roya":              "Roya",
-    "Saludable":         "Saludable",
+    "AmarillamientoAvanzado":   "Amarillamiento Avanzado",
+    "AmarillamientoInicial":    "Amarillamiento Inicial",
+    "CogolleroAvanzado":        "Gusano Cogollero Avanzado",
+    "CogolleroInicial":         "Gusano Cogollero Inicial",
+    "PodredumbreRojaAvanzado":  "Podredumbre Roja Avanzada",
+    "PodredumbreRojaInicial":   "Podredumbre Roja Inicial",
+    "RoyaAvanzado":             "Roya Avanzada",
+    "RoyaInicial":              "Roya Inicial",
+    "Saludable":                "Saludable",
 }
 
 @app.get("/")
