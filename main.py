@@ -45,7 +45,7 @@ async def predict(file: UploadFile = File(...)):
     img_np = np.array(image)
     img_np = img_np[:, :, ::-1]  # RGB a BGR
 
-    resultado_hoja = model_hoja(img_np, conf=0.45, verbose=False)
+    resultado_hoja = model_hoja(img_np, conf=0.40, verbose=False)
 
     if len(resultado_hoja[0].boxes) == 0:
         return {
@@ -56,7 +56,7 @@ async def predict(file: UploadFile = File(...)):
             "mensaje": "No se detectó hoja de caña en la imagen"
         }
 
-    resultado_enf = model_enfermedades(img_np, conf=0.15, verbose=False)
+    resultado_enf = model_enfermedades(img_np, conf=0.40, verbose=False)
 
     detecciones = []
     for box in resultado_enf[0].boxes:
