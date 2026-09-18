@@ -56,7 +56,7 @@ async def predict(file: UploadFile = File(...)):
             "mensaje": "No se detectó hoja de caña en la imagen"
         }
 
-    resultado_enf = model_enfermedades(img_np, conf=0.15, verbose=False)
+    resultado_enf = model_enfermedades(img_np, conf=0.01, verbose=False)
 
     detecciones = []
     for box in resultado_enf[0].boxes:
